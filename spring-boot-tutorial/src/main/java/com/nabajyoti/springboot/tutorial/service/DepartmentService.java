@@ -3,6 +3,7 @@ package com.nabajyoti.springboot.tutorial.service;
 
 import java.util.List;
 
+import com.nabajyoti.springboot.tutorial.error.DepartmentNotFoundException;
 import com.nabajyoti.springboot.tutorial.entities.Department;
 
 public interface DepartmentService {
@@ -11,7 +12,7 @@ public interface DepartmentService {
 
     public List<Department> fetchDepartmentList();
 
-    public Department findDepartment(Long departmentld);
+    public Department findDepartment(Long departmentld) throws DepartmentNotFoundException;
 
     public Department fetchDepartmentByName(String departmentName);
 
