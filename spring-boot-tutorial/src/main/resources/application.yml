@@ -40,6 +40,12 @@ spring:
 welcome:
   message: '"Welcome to the prod enviroment, baby"'
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 
 
 
