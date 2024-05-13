@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+    application:
+        name: library-app
+
+    datasource:
+        url: jdbc:mysql://localhost:3306/library_app
+        username: root
+        password: 12345678
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+        
+    data:
+        redis:
+            host: localhost
+            port: 6379
+            
+    cache:
+        cache-names:
+            - books
+        type: redis
+        redis:
+            time-to-live: 30s
+            use-key-prefix: true
+            cache-null-values: true
+
+   
+
+      
+
+    
+     
+
+      
