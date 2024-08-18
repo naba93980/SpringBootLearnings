@@ -18,7 +18,7 @@ import com.cache.libraryapp.repository.BookRepository;
 
 
 @Service
-@CacheConfig(cacheNames = "book")
+@CacheConfig(cacheNames = "books")
 public class BookServiceImpl implements BookService{
 
     private static final Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);

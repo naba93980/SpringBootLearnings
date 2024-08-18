@@ -1,0 +1,85 @@
+spring:
+  application:
+    name: User-Service
+  profiles:
+    active:
+    - dev
+  config:
+    import:
+    - configserver:http://localhost:8888
+
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:  # applies to all feign clients
+            connectTimeout: 2000
+            readTimeout: 2000
+      circuitbreaker:
+        enabled: true
+        alphanumeric-ids:
+          enabled: true
+          
+
+resilience4j.circuitbreaker:
+    configs:
+        default:
+            registerHealthIndicator: true
+    # circuitBreakerAspectOrder: 1
+    instances:
+        ratingService:
+            baseConfig: default
+            slidingWindowSize: 60
+            slidingWindowType: TIME_BASED
+            minimumNumberOfCalls: 5
+            failureRateThreshold: 50
+            waitDurationInOpenState: 20s
+            permittedNumberOfCallsInHalfOpenState: 3
+        hotelService:
+            slidingWindowSize: 60
+            slidingWindowType: TIME_BASED
+            minimumNumberOfCalls: 10
+            failureRateThreshold: 50
+            waitDurationInOpenState: 20s
+            permittedNumberOfCallsInHalfOpenState: 6
+
+resilience4j.timelimiter:
+    instances:
+        ratingService:
+            timeoutDuration: 2s
+        hotelService:
+            timeoutDuration: 1s
+            
+
+resilience4j.retry:
+    # retryAspectOrder: 2
+    instances:
+      ratingService:
+        max-attempts: 3
+        waitDuration: 1000ms
+      hotelService:
+        max-attempts: 4
+        waitDuration: 1000ms
+  
+        
+resilience4j.ratelimiter:
+    instances:
+        hotelService:
+            limitForPeriod: 5
+            limitRefreshPeriod: 100s
+            timeoutDuration: 5s
+            registerHealthIndicator: true
+            subscribe-for-events: true
+        ratingService:
+            limitForPeriod: 6
+            limitRefreshPeriod: 500ms
+            timeoutDuration: 3s
+            
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
